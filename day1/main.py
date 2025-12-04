@@ -1,3 +1,8 @@
+def line_generator(file_path: str):
+    with open(file_path, "r") as file:
+        for line in file:
+            yield line.strip()
+
 def get_next_digit(current:int, line: str) -> int:
     direction = line[0]
     distance = int(line[1:].strip())
@@ -8,18 +13,16 @@ def get_next_digit(current:int, line: str) -> int:
         while new < 0:
             new += 100
         return new
-        
+
+def part_one():
+    current = 50 
+    count = 0
+    for line in line_generator("input/input.txt"):
+        current = get_next_digit(current, line)
+        if current == 0:
+            count += 1
+    print(count)
+
 
 if __name__ == "__main__":
-    with open("input/input.txt", "r") as file:
-    # with open("input/input.txt", "r") as file:    
-        current = 50 
-        count = 0
-        
-        for line in file:
-            # print(f"Current: {current}")
-            current = get_next_digit(current, line)
-            if current == 0:
-                count += 1
-            # print(f"{line.strip()} -> {current}")
-        print(count)
+    part_one()
