@@ -1,6 +1,6 @@
 import unittest
 from parameterized import parameterized
-from main import get_batteries
+from main import get_batteries, line_joltage, find_max_of
 
 class TestJoltage(unittest.TestCase):
      
@@ -24,3 +24,22 @@ class TestJoltage(unittest.TestCase):
     def test_part_one(self, input, expected):
         biggest, bigger = get_batteries(input)
         self.assertEqual(expected, int(f"{biggest.value}{bigger.value}"))
+
+    @parameterized.expand([
+        ["987654321111111", 987654321111, 12],
+        ["811111111111119", 811111111119, 12],
+        ["234234234234278", 434234234278, 12],
+        ["818181911112111", 888911112111, 12],
+        
+    ])
+    def test_part_two(self, input, expected, to_keep):
+        joltage = line_joltage(input, to_keep)
+        self.assertEqual( expected, joltage)
+    
+    @parameterized.expand([
+        ["3345", 0, 3, "4"],
+        ["3345", 0, 4, "5"],
+    ])
+    def test_max_of(self, fixture, start, end, expected):
+        index = find_max_of(fixture, start, end)
+        self.assertEqual(fixture[index], expected)

@@ -1,3 +1,4 @@
+import itertools
 
 def generate_next_id(file: str) -> str:
      with open(file, "r") as file:
@@ -14,6 +15,34 @@ def part_one():
         # print(f"{i}:: {biggest.value + bigger.value} :: {biggest.index} & {bigger.index}")
         joltage += int(f"{biggest.value}{bigger.value}")
     print (joltage)
+
+
+def find_max_of(substring: str, start, end):
+    max_value = max(substring[start:end])
+    index = substring.index(max_value, start, end)
+    return index
+
+def line_joltage(all_batteries: str, size:int) -> int:
+    to_keep = size
+    front = 0
+    joltage = ""
+
+    while to_keep > 0:
+        idx = find_max_of(all_batteries, front, len(all_batteries)-to_keep+1 )
+        joltage += all_batteries[idx]
+        to_keep-=1
+        front = idx+1
+    print(f"{joltage}")
+    return int(f"{joltage}")
+
+def  part_two():
+    scanner = generate_next_id('input/example.txt')
+    scanner = generate_next_id('input/input.txt')
+    joltage_agg = 0
+    for i in scanner:
+        joltage = line_joltage(i, 12)
+        joltage_agg += int(joltage)
+    print(f"total: {joltage_agg}")
 
 class Battery:
     def __init__(self, bank, index):
@@ -40,7 +69,7 @@ def get_batteries(batteries:str)-> tuple[Battery, Battery]:
     return (biggest, bigger)
 
 if __name__ == "__main__":
-    part_one()
+    # part_one()
+    # 17443 is correct
 
-    # 17275 is too low
-    # 17447 is too high
+    part_two() # 172167155440541
