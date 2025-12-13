@@ -10,6 +10,21 @@ def is_valid(id: str) -> bool:
         return False
     return True
 
+def is_valid_part_two(id: str) -> bool:
+    for i in range (1, (len(id)//2)+1):
+        if len(id)%i != 0:
+           continue
+        if is_repeated_sequence(id, i):
+            return False
+    return True
+
+def is_repeated_sequence(id: str, seq_length:int) -> bool:
+    for i in range (0, len(id)//seq_length):
+        if id[0:seq_length] != id[i*seq_length:(i+1)*seq_length]:
+            return False
+    return True
+
+
 def generate_next_id(file: str) -> str:
      with open('input/input.txt', "r") as file:
         for line in file:
@@ -21,16 +36,16 @@ def generate_next_id(file: str) -> str:
                     yield i
     
 
-def part_one():
+def part_one(validator:callable):
     invalid_accumulator = 0
     # scanner = generate_next_id('input/example.txt')
     scanner = generate_next_id('input/input.txt')
     for i in scanner:
-        if not is_valid(str(i)):
+        if not validator(str(i)):
             invalid_accumulator += i
     print (invalid_accumulator)
 
 
-
 if __name__ == "__main__":
-    part_one()
+    # part_one(validator=is_valid)
+    part_one(validator=is_valid_part_two)
