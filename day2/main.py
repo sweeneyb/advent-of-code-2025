@@ -26,7 +26,7 @@ def is_repeated_sequence(id: str, seq_length:int) -> bool:
 
 
 def generate_next_id(file: str) -> str:
-     with open('input/input.txt', "r") as file:
+     with open(file, "r") as file:
         for line in file:
             text_range = [x.strip() for x in line.split(",")]
             for r in text_range:
